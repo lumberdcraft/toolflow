@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <title>ToolFlow</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
@@ -16,124 +16,178 @@
   --accent: #00e5ff; --accent2: #ff6b35; --accent3: #39ff14;
   --warn: #ffcc00; --danger: #ff2d55; --text: #e8edf5; --muted: #5a6474; --card: #13171e;
 }
-body { background: var(--bg); color: var(--text); font-family: 'Exo 2', sans-serif; }
-.tf-login-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; }
-.tf-login-box { width: 100%; max-width: 400px; padding: 24px; }
+html, body { width: 100%; overflow-x: hidden; }
+body { background: var(--bg); color: var(--text); font-family: 'Exo 2', sans-serif; -webkit-text-size-adjust: 100%; }
+
+/* LOGIN */
+.tf-login-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+.tf-login-box { width: 100%; max-width: 400px; }
 .tf-login-logo { font-family: 'Rajdhani', sans-serif; font-size: 36px; font-weight: 700; letter-spacing: 4px; color: var(--accent); text-transform: uppercase; text-align: center; margin-bottom: 4px; }
 .tf-login-logo span { color: var(--accent2); }
-.tf-login-sub { text-align: center; font-size: 12px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 40px; }
-.tf-login-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 32px; }
+.tf-login-sub { text-align: center; font-size: 12px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 32px; }
+.tf-login-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 28px; }
 .tf-login-title { font-family: 'Rajdhani', sans-serif; font-size: 18px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px; text-align: center; }
-.tf-error { background: rgba(255,45,85,0.1); border: 1px solid rgba(255,45,85,0.3); color: var(--danger); border-radius: 8px; padding: 10px 14px; font-size: 13px; margin-bottom: 16px; text-align: center; }
-.tf-success-msg { background: rgba(57,255,20,0.1); border: 1px solid rgba(57,255,20,0.3); color: var(--accent3); border-radius: 8px; padding: 10px 14px; font-size: 13px; margin-bottom: 16px; text-align: center; }
-.tf-root { min-height: 100vh; display: flex; flex-direction: column; }
-.tf-topnav { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 16px; height: 56px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
-.tf-logo { font-family: 'Rajdhani', sans-serif; font-size: 20px; font-weight: 700; letter-spacing: 3px; color: var(--accent); text-transform: uppercase; }
+
+/* APP LAYOUT */
+.tf-root { min-height: 100vh; display: flex; flex-direction: column; width: 100%; }
+.tf-topnav {
+  background: var(--surface); border-bottom: 1px solid var(--border);
+  padding: 0 12px; height: 52px; display: flex; align-items: center;
+  justify-content: space-between; position: sticky; top: 0; z-index: 100;
+  width: 100%; gap: 8px;
+}
+.tf-logo { font-family: 'Rajdhani', sans-serif; font-size: 18px; font-weight: 700; letter-spacing: 2px; color: var(--accent); text-transform: uppercase; flex-shrink: 0; }
 .tf-logo span { color: var(--accent2); }
-.tf-nav-tabs { display: flex; gap: 2px; }
-.tf-nav-tab { padding: 6px 11px; border-radius: 6px; border: none; background: transparent; color: var(--muted); font-family: 'Exo 2', sans-serif; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+.tf-nav-tabs { display: flex; gap: 2px; overflow-x: auto; -webkit-overflow-scrolling: touch; flex: 1; justify-content: center; }
+.tf-nav-tabs::-webkit-scrollbar { display: none; }
+.tf-nav-tab { padding: 6px 10px; border-radius: 6px; border: none; background: transparent; color: var(--muted); font-family: 'Exo 2', sans-serif; font-size: 11px; font-weight: 600; cursor: pointer; transition: all 0.2s; white-space: nowrap; flex-shrink: 0; }
 .tf-nav-tab:hover { background: var(--surface2); color: var(--text); }
 .tf-nav-tab.active { background: var(--accent); color: #000; }
 .tf-nav-tab.admin-tab { color: var(--warn); }
 .tf-nav-tab.admin-tab.active { background: var(--warn); color: #000; }
-.tf-user-area { display: flex; align-items: center; gap: 8px; }
-.tf-user-badge { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--accent3); background: rgba(57,255,20,0.08); padding: 4px 8px; border-radius: 4px; border: 1px solid rgba(57,255,20,0.2); white-space: nowrap; }
-.tf-admin-badge { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--warn); background: rgba(255,204,0,0.08); padding: 3px 7px; border-radius: 4px; border: 1px solid rgba(255,204,0,0.2); }
-.tf-logout-btn { background: transparent; border: 1px solid var(--border); color: var(--muted); border-radius: 6px; padding: 4px 8px; font-size: 11px; cursor: pointer; transition: all 0.2s; }
+.tf-user-area { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+.tf-user-badge { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--accent3); background: rgba(57,255,20,0.08); padding: 3px 7px; border-radius: 4px; border: 1px solid rgba(57,255,20,0.2); white-space: nowrap; display: none; }
+.tf-admin-badge { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--warn); background: rgba(255,204,0,0.08); padding: 3px 6px; border-radius: 4px; border: 1px solid rgba(255,204,0,0.2); }
+.tf-logout-btn { background: transparent; border: 1px solid var(--border); color: var(--muted); border-radius: 6px; padding: 4px 8px; font-size: 11px; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
 .tf-logout-btn:hover { border-color: var(--danger); color: var(--danger); }
-.tf-main { flex: 1; padding: 24px 20px; max-width: 1300px; margin: 0 auto; width: 100%; }
-.tf-section-title { font-family: 'Rajdhani', sans-serif; font-size: 26px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+.tf-main { flex: 1; padding: 16px; width: 100%; max-width: 1300px; margin: 0 auto; }
+
+/* TYPOGRAPHY */
+.tf-section-title { font-family: 'Rajdhani', sans-serif; font-size: 22px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
 .tf-section-title span { color: var(--accent); }
-.tf-section-sub { font-size: 13px; color: var(--muted); margin-top: 4px; }
-.tf-section-header { margin-bottom: 24px; }
-.tf-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.tf-grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
-.tf-grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-.tf-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
-.tf-card-title { font-family: 'Rajdhani', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; }
-.tf-stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; position: relative; overflow: hidden; }
+.tf-section-sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+.tf-section-header { margin-bottom: 20px; }
+
+/* GRIDS */
+.tf-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.tf-grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+.tf-grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+
+/* CARDS */
+.tf-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
+.tf-card-title { font-family: 'Rajdhani', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; }
+
+/* STAT CARDS */
+.tf-stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; position: relative; overflow: hidden; }
 .tf-stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
 .tf-stat-card.cyan::before { background: var(--accent); }
 .tf-stat-card.orange::before { background: var(--accent2); }
 .tf-stat-card.green::before { background: var(--accent3); }
 .tf-stat-card.warn::before { background: var(--warn); }
 .tf-stat-card.danger::before { background: var(--danger); }
-.tf-stat-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
-.tf-stat-value { font-family: 'Share Tech Mono', monospace; font-size: 32px; line-height: 1; }
+.tf-stat-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+.tf-stat-value { font-family: 'Share Tech Mono', monospace; font-size: 28px; line-height: 1; }
 .tf-stat-value.cyan { color: var(--accent); } .tf-stat-value.orange { color: var(--accent2); }
 .tf-stat-value.green { color: var(--accent3); } .tf-stat-value.warn { color: var(--warn); } .tf-stat-value.danger { color: var(--danger); }
-.tf-stat-sub { font-size: 11px; color: var(--muted); margin-top: 6px; }
-.tf-form-group { margin-bottom: 16px; }
-.tf-form-label { display: block; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; font-weight: 600; }
-.tf-input, .tf-select, .tf-textarea { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; color: var(--text); font-family: 'Exo 2', sans-serif; font-size: 14px; outline: none; transition: border-color 0.2s; }
+.tf-stat-sub { font-size: 10px; color: var(--muted); margin-top: 4px; }
+
+/* FORMS */
+.tf-form-group { margin-bottom: 14px; }
+.tf-form-label { display: block; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; font-weight: 600; }
+.tf-input, .tf-select, .tf-textarea { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; color: var(--text); font-family: 'Exo 2', sans-serif; font-size: 16px; outline: none; transition: border-color 0.2s; -webkit-appearance: none; }
 .tf-input:focus, .tf-select:focus, .tf-textarea:focus { border-color: var(--accent); }
 .tf-select option, .tf-select optgroup { background: var(--surface2); }
 .tf-textarea { resize: vertical; min-height: 80px; }
-.tf-btn { padding: 10px 20px; border-radius: 8px; border: none; font-family: 'Rajdhani', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: all 0.2s; }
+
+/* BUTTONS */
+.tf-btn { padding: 10px 18px; border-radius: 8px; border: none; font-family: 'Rajdhani', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: all 0.2s; -webkit-tap-highlight-color: transparent; }
 .tf-btn.primary { background: var(--accent); color: #000; }
-.tf-btn.primary:hover { background: #33eeff; transform: translateY(-1px); }
-.tf-btn.primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+.tf-btn.primary:active { background: #33eeff; }
+.tf-btn.primary:disabled { opacity: 0.5; cursor: not-allowed; }
 .tf-btn.danger { background: var(--danger); color: #fff; }
 .tf-btn.warn { background: var(--warn); color: #000; }
 .tf-btn.green { background: var(--accent3); color: #000; }
 .tf-btn.ghost { background: transparent; border: 1px solid var(--border); color: var(--muted); }
-.tf-btn.ghost:hover { border-color: var(--accent); color: var(--accent); }
+.tf-btn.ghost:active { border-color: var(--accent); color: var(--accent); }
 .tf-btn.full { width: 100%; }
-.tf-btn.sm { padding: 6px 12px; font-size: 12px; }
-.tf-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; font-family: 'Share Tech Mono', monospace; }
+.tf-btn.sm { padding: 6px 10px; font-size: 11px; }
+
+/* BADGES */
+.tf-badge { display: inline-block; padding: 2px 7px; border-radius: 4px; font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; font-family: 'Share Tech Mono', monospace; }
 .tf-badge.cyan { background: rgba(0,229,255,0.15); color: var(--accent); border: 1px solid rgba(0,229,255,0.3); }
 .tf-badge.green { background: rgba(57,255,20,0.12); color: var(--accent3); border: 1px solid rgba(57,255,20,0.25); }
 .tf-badge.orange { background: rgba(255,107,53,0.15); color: var(--accent2); border: 1px solid rgba(255,107,53,0.3); }
 .tf-badge.red { background: rgba(255,45,85,0.15); color: var(--danger); border: 1px solid rgba(255,45,85,0.3); }
 .tf-badge.warn { background: rgba(255,204,0,0.15); color: var(--warn); border: 1px solid rgba(255,204,0,0.3); }
 .tf-badge.muted { background: rgba(90,100,116,0.2); color: var(--muted); border: 1px solid var(--border); }
-.tf-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-.tf-table th { text-align: left; padding: 10px 14px; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); border-bottom: 1px solid var(--border); font-weight: 600; }
-.tf-table td { padding: 12px 14px; border-bottom: 1px solid rgba(30,36,44,0.6); }
+
+/* TABLE */
+.tf-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.tf-table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 600px; }
+.tf-table th { text-align: left; padding: 10px 12px; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); border-bottom: 1px solid var(--border); font-weight: 600; white-space: nowrap; }
+.tf-table td { padding: 10px 12px; border-bottom: 1px solid rgba(30,36,44,0.6); }
 .tf-table tr:hover td { background: rgba(255,255,255,0.02); }
 .tf-mono { font-family: 'Share Tech Mono', monospace; }
-.tf-turret-block { flex: 1; min-width: 180px; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
-.tf-turret-label { font-family: 'Rajdhani', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; text-align: center; }
-.tf-turret-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
-.tf-slot { aspect-ratio: 1; border-radius: 6px; border: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 9px; font-family: 'Share Tech Mono', monospace; transition: all 0.15s; padding: 4px; text-align: center; line-height: 1.2; background: rgba(90,100,116,0.05); color: var(--border); }
-.tf-slot-num { font-size: 8px; color: var(--muted); margin-bottom: 2px; }
-.tf-success-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 48px 24px; text-align: center; }
-.tf-success-icon { width: 72px; height: 72px; border-radius: 50%; background: rgba(57,255,20,0.15); border: 2px solid var(--accent3); display: flex; align-items: center; justify-content: center; font-size: 32px; margin-bottom: 20px; }
-.tf-success-title { font-family: 'Rajdhani', sans-serif; font-size: 24px; font-weight: 700; color: var(--accent3); margin-bottom: 8px; letter-spacing: 2px; }
-.tf-success-sub { color: var(--muted); font-size: 14px; }
-.tf-progress-bar { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; margin-top: 8px; }
-.tf-progress-fill { height: 100%; border-radius: 2px; transition: width 0.3s; }
-.tf-search-bar { display: flex; align-items: center; gap: 10px; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; margin-bottom: 16px; }
-.tf-search-bar input { background: none; border: none; outline: none; color: var(--text); font-family: 'Exo 2', sans-serif; font-size: 14px; flex: 1; }
-.tf-loading { display: flex; align-items: center; justify-content: center; padding: 48px; color: var(--muted); font-size: 14px; }
-.tf-machine-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 14px; cursor: pointer; transition: all 0.2s; }
-.tf-machine-card:hover { border-color: var(--accent); }
+
+/* MACHINE CARDS */
+.tf-machine-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 12px; cursor: pointer; transition: all 0.2s; -webkit-tap-highlight-color: transparent; }
+.tf-machine-card:active { border-color: var(--accent); }
 .tf-machine-card.offline { opacity: 0.4; border-style: dashed; }
 .tf-machine-card.selected { border-color: var(--accent); background: rgba(0,229,255,0.05); }
-.tf-machine-name { font-family: 'Rajdhani', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: 1px; color: var(--accent); margin-bottom: 4px; }
+.tf-machine-name { font-family: 'Rajdhani', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 1px; color: var(--accent); margin-bottom: 3px; }
 .tf-machine-type { font-size: 10px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
-.tf-toggle { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+
+/* TURRET */
+.tf-turret-block { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 14px; }
+.tf-turret-label { font-family: 'Rajdhani', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; text-align: center; }
+.tf-turret-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.tf-slot { aspect-ratio: 1; border-radius: 8px; border: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 9px; font-family: 'Share Tech Mono', monospace; cursor: pointer; transition: all 0.15s; padding: 4px; text-align: center; line-height: 1.2; background: rgba(90,100,116,0.05); color: var(--muted); -webkit-tap-highlight-color: transparent; }
+.tf-slot:active { transform: scale(0.95); }
+.tf-slot.occupied { background: rgba(0,229,255,0.12); border-color: rgba(0,229,255,0.4); color: var(--accent); }
+.tf-slot.worn { background: rgba(255,204,0,0.12); border-color: rgba(255,204,0,0.4); color: var(--warn); }
+.tf-slot.empty { background: rgba(90,100,116,0.05); border-color: var(--border); color: var(--muted); }
+.tf-slot.broken { background: rgba(255,45,85,0.12); border-color: rgba(255,45,85,0.4); color: var(--danger); }
+.tf-slot-num { font-size: 8px; color: var(--muted); margin-bottom: 1px; }
+.tf-slot-tool { font-size: 8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; }
+
+/* SLOT MODAL */
+.tf-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 200; display: flex; align-items: flex-end; justify-content: center; padding: 0; }
+.tf-modal { background: var(--surface); border: 1px solid var(--border); border-radius: 16px 16px 0 0; padding: 24px; width: 100%; max-width: 500px; max-height: 80vh; overflow-y: auto; }
+.tf-modal-title { font-family: 'Rajdhani', sans-serif; font-size: 18px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; color: var(--accent); }
+
+/* MISC */
+.tf-error { background: rgba(255,45,85,0.1); border: 1px solid rgba(255,45,85,0.3); color: var(--danger); border-radius: 8px; padding: 10px 14px; font-size: 13px; margin-bottom: 14px; text-align: center; }
+.tf-success-msg { background: rgba(57,255,20,0.1); border: 1px solid rgba(57,255,20,0.3); color: var(--accent3); border-radius: 8px; padding: 10px 14px; font-size: 13px; margin-bottom: 14px; text-align: center; }
+.tf-success-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px; text-align: center; }
+.tf-success-icon { width: 72px; height: 72px; border-radius: 50%; background: rgba(57,255,20,0.15); border: 2px solid var(--accent3); display: flex; align-items: center; justify-content: center; font-size: 32px; margin-bottom: 20px; }
+.tf-success-title { font-family: 'Rajdhani', sans-serif; font-size: 22px; font-weight: 700; color: var(--accent3); margin-bottom: 8px; letter-spacing: 2px; }
+.tf-success-sub { color: var(--muted); font-size: 13px; }
+.tf-progress-bar { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; margin-top: 8px; }
+.tf-progress-fill { height: 100%; border-radius: 2px; transition: width 0.3s; }
+.tf-search-bar { display: flex; align-items: center; gap: 10px; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; margin-bottom: 14px; }
+.tf-search-bar input { background: none; border: none; outline: none; color: var(--text); font-family: 'Exo 2', sans-serif; font-size: 16px; flex: 1; min-width: 0; }
+.tf-loading { display: flex; align-items: center; justify-content: center; padding: 48px; color: var(--muted); font-size: 14px; }
+.tf-divider { height: 1px; background: var(--border); margin: 16px 0; }
+.tf-toggle { display: flex; align-items: center; gap: 8px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
 .tf-toggle-switch { width: 36px; height: 20px; background: var(--border); border-radius: 10px; position: relative; transition: background 0.2s; flex-shrink: 0; }
 .tf-toggle-switch.on { background: var(--accent3); }
 .tf-toggle-switch::after { content: ''; position: absolute; width: 14px; height: 14px; background: #fff; border-radius: 50%; top: 3px; left: 3px; transition: left 0.2s; }
 .tf-toggle-switch.on::after { left: 19px; }
-.tf-pocket-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 4px; }
-.tf-pocket { aspect-ratio: 1; border-radius: 4px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 8px; font-family: 'Share Tech Mono', monospace; background: rgba(90,100,116,0.05); color: var(--muted); }
-@media (max-width: 768px) {
+.tf-pocket-grid { display: grid; grid-template-columns: repeat(8, 1fr); gap: 4px; }
+.tf-pocket { aspect-ratio: 1; border-radius: 4px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 8px; font-family: 'Share Tech Mono', monospace; background: rgba(90,100,116,0.05); color: var(--muted); cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.tf-pocket.occupied { background: rgba(0,229,255,0.12); border-color: rgba(0,229,255,0.3); color: var(--accent); }
+
+/* MOBILE RESPONSIVE */
+@media (max-width: 480px) {
   .tf-grid4 { grid-template-columns: repeat(2, 1fr); }
   .tf-grid3 { grid-template-columns: 1fr 1fr; }
   .tf-grid2 { grid-template-columns: 1fr; }
-  .tf-nav-tab { padding: 5px 7px; font-size: 10px; }
-  .tf-logo { font-size: 16px; }
   .tf-user-badge { display: none; }
   .tf-pocket-grid { grid-template-columns: repeat(6, 1fr); }
+}
+@media (min-width: 481px) {
+  .tf-user-badge { display: block; }
+  .tf-main { padding: 20px; }
+  .tf-topnav { padding: 0 20px; height: 56px; }
+  .tf-logo { font-size: 20px; }
+  .tf-nav-tab { font-size: 12px; padding: 6px 12px; }
 }
 </style>
 </head>
 <body>
 <div id="root"></div>
 <script type="text/babel">
-const { useState, useEffect, useCallback } = React;
+const { useState, useEffect, useCallback, useRef } = React;
 
 const SUPABASE_URL = "https://kciriswcoihigustyyqz.supabase.co";
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtjaXJpc3djb2loaWd1c3R5eXF6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYwMDg3MDYsImV4cCI6MjA5MTU4NDcwNn0._ejKgxeR7-q7lQB2-YIxy8iFmt19-KQ9YfPe3kXljwY";
@@ -189,22 +243,11 @@ function clearSession(){sessionStorage.removeItem("tf_user");}
 
 async function fetchReports(){
   const{data,error}=await sb.from("tool_reports").select("*").order("created_at",{ascending:false});
-  if(error){console.error(error);return[];}
-  return data||[];
+  if(error){console.error(error);return[];}return data||[];
 }
-async function insertReport(r){
-  const{error}=await sb.from("tool_reports").insert([r]);
-  return !error;
-}
-async function fetchMachinesDB(){
-  const{data}=await sb.from("machines").select("*").order("name");
-  return data||null;
-}
-async function saveMachinesDB(machines){
-  await sb.from("machines").delete().neq("id","__none__");
-  const{error}=await sb.from("machines").insert(machines);
-  return !error;
-}
+async function insertReport(r){const{error}=await sb.from("tool_reports").insert([r]);return!error;}
+async function fetchMachinesDB(){const{data}=await sb.from("machines").select("*").order("name");return data||null;}
+async function saveMachinesDB(m){await sb.from("machines").delete().neq("id","__none__");const{error}=await sb.from("machines").insert(m);return!error;}
 
 function ReasonBadge({reason}){
   if(reason==="broken")return<span className="tf-badge red">BROKEN</span>;
@@ -214,6 +257,7 @@ function ReasonBadge({reason}){
   return null;
 }
 
+// ── LOGIN ────────────────────────────────────────────────────────────────────
 function LoginScreen({onLogin}){
   const[name,setName]=useState("");
   const[badge,setBadge]=useState("");
@@ -222,8 +266,7 @@ function LoginScreen({onLogin}){
     const n=name.trim(),b=badge.trim();
     if(!n){setError("Please enter your name.");return;}
     if(!b||!/^\d+$/.test(b)){setError("Badge number must be numeric.");return;}
-    const u={name:n,badge:b,isAdmin:b===ADMIN_BADGE};
-    saveSession(u);onLogin(u);
+    const u={name:n,badge:b,isAdmin:b===ADMIN_BADGE};saveSession(u);onLogin(u);
   };
   return(
     <div className="tf-login-wrap">
@@ -239,7 +282,7 @@ function LoginScreen({onLogin}){
           </div>
           <div className="tf-form-group">
             <label className="tf-form-label">Badge Number</label>
-            <input className="tf-input" placeholder="e.g. 1042" value={badge} onChange={e=>{setBadge(e.target.value);setError("");}} onKeyDown={e=>e.key==="Enter"&&submit()} />
+            <input className="tf-input" type="tel" placeholder="e.g. 1042" value={badge} onChange={e=>{setBadge(e.target.value);setError("");}} onKeyDown={e=>e.key==="Enter"&&submit()} />
           </div>
           <button className="tf-btn primary full" style={{marginTop:8}} onClick={submit} disabled={!name.trim()||!badge.trim()}>
             Enter Shop Floor
@@ -250,6 +293,7 @@ function LoginScreen({onLogin}){
   );
 }
 
+// ── OPERATOR VIEW ────────────────────────────────────────────────────────────
 function OperatorView({user,machines,onReportAdded}){
   const[step,setStep]=useState(1);
   const[action,setAction]=useState("");
@@ -283,7 +327,7 @@ function OperatorView({user,machines,onReportAdded}){
         <div className="tf-success-icon">✓</div>
         <div className="tf-success-title">REPORT SUBMITTED</div>
         <div className="tf-success-sub">Tool Crib notified · Saved to database</div>
-        <div style={{marginTop:28,display:"flex",gap:12}}>
+        <div style={{marginTop:28,display:"flex",gap:12,flexWrap:"wrap",justifyContent:"center"}}>
           <button className="tf-btn ghost" onClick={reset}>New Report</button>
           <button className="tf-btn primary" onClick={reset}>Done</button>
         </div>
@@ -304,13 +348,15 @@ function OperatorView({user,machines,onReportAdded}){
           {key:"lost",icon:"🔍",label:"Can't Find It",sub:"Lost tool, search required",color:"var(--accent2)"},
           {key:"return",icon:"↩️",label:"Return to Crib",sub:"Return tool to inventory",color:"var(--accent3)"},
         ].map(a=>(
-          <div key={a.key} className="tf-card" style={{cursor:"pointer",borderColor:"transparent",transition:"all 0.2s"}}
+          <div key={a.key} className="tf-card" style={{cursor:"pointer",borderColor:"transparent",transition:"border-color 0.2s"}}
             onClick={()=>{setAction(a.key);setStep(2);}}
+            onTouchStart={e=>e.currentTarget.style.borderColor=a.color}
+            onTouchEnd={e=>e.currentTarget.style.borderColor="transparent"}
             onMouseEnter={e=>e.currentTarget.style.borderColor=a.color}
             onMouseLeave={e=>e.currentTarget.style.borderColor="transparent"}>
-            <div style={{fontSize:32,marginBottom:10}}>{a.icon}</div>
-            <div style={{fontFamily:"'Rajdhani',sans-serif",fontSize:18,fontWeight:700,marginBottom:4,color:a.color}}>{a.label}</div>
-            <div style={{fontSize:12,color:"var(--muted)"}}>{a.sub}</div>
+            <div style={{fontSize:28,marginBottom:8}}>{a.icon}</div>
+            <div style={{fontFamily:"'Rajdhani',sans-serif",fontSize:16,fontWeight:700,marginBottom:3,color:a.color}}>{a.label}</div>
+            <div style={{fontSize:11,color:"var(--muted)"}}>{a.sub}</div>
           </div>
         ))}
       </div>
@@ -324,7 +370,7 @@ function OperatorView({user,machines,onReportAdded}){
         <button className="tf-btn ghost sm" onClick={()=>setStep(1)}>← Back</button>
         <div>
           <div className="tf-section-title"><span>{labels[action]}</span></div>
-          <div className="tf-section-sub">Fill in the details — under 1 minute</div>
+          <div className="tf-section-sub">Fill in the details</div>
         </div>
       </div>
       <div className="tf-card">
@@ -340,18 +386,20 @@ function OperatorView({user,machines,onReportAdded}){
               {TOOL_TYPES.map(t=><option key={t}>{t}</option>)}
             </select>
           </div>
-          <div className="tf-form-group">
-            <label className="tf-form-label">Machine</label>
-            <select className="tf-select" value={form.machine} onChange={set("machine")}>
-              <option value="">Select…</option>
-              {MODEL_ORDER.map(model=>{
-                const g=activeMachines.filter(m=>m.model===model);
-                if(!g.length)return null;
-                return<optgroup key={model} label={"— "+model+" —"}>{g.map(m=><option key={m.id} value={m.id}>{m.name}</option>)}</optgroup>;
-              })}
-            </select>
-          </div>
-          {isLathe&&(action==="broken"||action==="worn")&&(<>
+        </div>
+        <div className="tf-form-group">
+          <label className="tf-form-label">Machine</label>
+          <select className="tf-select" value={form.machine} onChange={set("machine")}>
+            <option value="">Select machine…</option>
+            {MODEL_ORDER.map(model=>{
+              const g=activeMachines.filter(m=>m.model===model);
+              if(!g.length)return null;
+              return<optgroup key={model} label={"— "+model+" —"}>{g.map(m=><option key={m.id} value={m.id}>{m.name}</option>)}</optgroup>;
+            })}
+          </select>
+        </div>
+        {isLathe&&(action==="broken"||action==="worn")&&(
+          <div className="tf-grid2">
             <div className="tf-form-group">
               <label className="tf-form-label">Turret</label>
               <select className="tf-select" value={form.turret} onChange={set("turret")}>
@@ -366,8 +414,8 @@ function OperatorView({user,machines,onReportAdded}){
                 {Array.from({length:selMachine.positions},(_,i)=><option key={i}>{i+1}</option>)}
               </select>
             </div>
-          </>)}
-        </div>
+          </div>
+        )}
         <div className="tf-form-group">
           <label className="tf-form-label">Notes (optional)</label>
           <textarea className="tf-textarea" placeholder="Briefly describe what happened…" value={form.notes} onChange={set("notes")} />
@@ -380,6 +428,7 @@ function OperatorView({user,machines,onReportAdded}){
   );
 }
 
+// ── CRIB VIEW ────────────────────────────────────────────────────────────────
 function CribView({reports,loading,onRefresh}){
   const[search,setSearch]=useState("");
   const[filter,setFilter]=useState("all");
@@ -390,117 +439,181 @@ function CribView({reports,loading,onRefresh}){
   });
   const totalCost=reports.reduce((s,r)=>s+(r.cost||0),0);
   const today=new Date().toDateString();
-  const todayReports=reports.filter(r=>r.created_at&&new Date(r.created_at).toDateString()===today);
-  const todayCost=todayReports.reduce((s,r)=>s+(r.cost||0),0);
+  const todayR=reports.filter(r=>r.created_at&&new Date(r.created_at).toDateString()===today);
+  const todayCost=todayR.reduce((s,r)=>s+(r.cost||0),0);
 
   return(
     <div>
-      <div className="tf-section-header" style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
+      <div className="tf-section-header" style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",gap:12}}>
         <div>
           <div className="tf-section-title">TOOL CRIB <span>DASHBOARD</span></div>
-          <div className="tf-section-sub">Live reports · {reports.length} total</div>
+          <div className="tf-section-sub">{reports.length} total reports</div>
         </div>
-        <div style={{display:"flex",gap:16,alignItems:"flex-start"}}>
+        <div style={{display:"flex",flexDirection:"column",alignItems:"flex-end",gap:6}}>
           <div style={{textAlign:"right"}}>
-            <div style={{fontFamily:"'Share Tech Mono'",fontSize:11,color:"var(--muted)",letterSpacing:2}}>TODAY'S LOSS</div>
-            <div style={{fontFamily:"'Share Tech Mono'",fontSize:24,color:"var(--danger)"}}>${todayCost.toFixed(2)}</div>
+            <div style={{fontFamily:"'Share Tech Mono'",fontSize:10,color:"var(--muted)",letterSpacing:2}}>TODAY'S LOSS</div>
+            <div style={{fontFamily:"'Share Tech Mono'",fontSize:22,color:"var(--danger)"}}>${todayCost.toFixed(2)}</div>
           </div>
           <button className="tf-btn ghost sm" onClick={onRefresh}>↻ Refresh</button>
         </div>
       </div>
-      <div className="tf-grid4" style={{marginBottom:20}}>
+      <div className="tf-grid4" style={{marginBottom:16}}>
         <div className="tf-stat-card danger"><div className="tf-stat-label">Total Loss</div><div className="tf-stat-value danger">${totalCost.toFixed(0)}</div><div className="tf-stat-sub">all time</div></div>
-        <div className="tf-stat-card orange"><div className="tf-stat-label">Today Reports</div><div className="tf-stat-value orange">{todayReports.length}</div><div className="tf-stat-sub">submitted</div></div>
+        <div className="tf-stat-card orange"><div className="tf-stat-label">Today</div><div className="tf-stat-value orange">{todayR.length}</div><div className="tf-stat-sub">reports</div></div>
         <div className="tf-stat-card warn"><div className="tf-stat-label">Broken</div><div className="tf-stat-value warn">{reports.filter(r=>r.reason==="broken").length}</div><div className="tf-stat-sub">total</div></div>
-        <div className="tf-stat-card cyan"><div className="tf-stat-label">Lost Tools</div><div className="tf-stat-value cyan">{reports.filter(r=>r.reason==="lost").length}</div><div className="tf-stat-sub">unaccounted</div></div>
+        <div className="tf-stat-card cyan"><div className="tf-stat-label">Lost</div><div className="tf-stat-value cyan">{reports.filter(r=>r.reason==="lost").length}</div><div className="tf-stat-sub">tools</div></div>
       </div>
-      <div style={{display:"flex",gap:8,marginBottom:16,flexWrap:"wrap"}}>
+      <div style={{display:"flex",gap:6,marginBottom:12,flexWrap:"wrap"}}>
         {[{k:"all",l:"All"},{k:"broken",l:"Broken"},{k:"worn",l:"Worn"},{k:"lost",l:"Lost"},{k:"return",l:"Returned"}].map(f=>(
           <button key={f.k} className={"tf-btn sm "+(filter===f.k?"primary":"ghost")} onClick={()=>setFilter(f.k)}>{f.l}</button>
         ))}
       </div>
       <div className="tf-search-bar">
         <span style={{color:"var(--muted)"}}>🔎</span>
-        <input placeholder="Search by tool ID, machine, operator or badge…" value={search} onChange={e=>setSearch(e.target.value)} />
+        <input placeholder="Search tool, machine, operator, badge…" value={search} onChange={e=>setSearch(e.target.value)} />
       </div>
-      {loading?<div className="tf-loading">Loading reports from database…</div>:(
+      {loading?<div className="tf-loading">Loading…</div>:(
         <div className="tf-card" style={{padding:0,overflow:"hidden"}}>
-          <table className="tf-table">
-            <thead><tr><th>Tool ID</th><th>Type</th><th>Status</th><th>Machine</th><th>Operator</th><th>Badge</th><th>Cost</th><th>Date/Time</th></tr></thead>
-            <tbody>
-              {filtered.map(r=>(
-                <tr key={r.id}>
-                  <td className="tf-mono" style={{color:"var(--accent)",fontSize:12}}>{r.tool_id}</td>
-                  <td style={{color:"var(--muted)",fontSize:12}}>{r.tool_type||"—"}</td>
-                  <td><ReasonBadge reason={r.reason}/></td>
-                  <td className="tf-mono" style={{fontSize:12}}>{r.machine_name}</td>
-                  <td style={{fontSize:12}}>{r.operator_name}</td>
-                  <td className="tf-mono" style={{fontSize:12,color:"var(--muted)"}}>{r.operator_badge}</td>
-                  <td className="tf-mono" style={{color:r.reason==="return"?"var(--accent3)":"var(--danger)",fontSize:13}}>${(r.cost||0).toFixed(2)}</td>
-                  <td style={{fontSize:11,color:"var(--muted)"}}>{r.created_at?new Date(r.created_at).toLocaleString():"—"}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          {filtered.length===0&&<div style={{padding:32,textAlign:"center",color:"var(--muted)",fontSize:13}}>No reports match that filter</div>}
+          <div className="tf-table-wrap">
+            <table className="tf-table">
+              <thead><tr><th>Tool ID</th><th>Type</th><th>Status</th><th>Machine</th><th>Operator</th><th>Badge</th><th>Cost</th><th>Date/Time</th></tr></thead>
+              <tbody>
+                {filtered.map(r=>(
+                  <tr key={r.id}>
+                    <td className="tf-mono" style={{color:"var(--accent)"}}>{r.tool_id}</td>
+                    <td style={{color:"var(--muted)"}}>{r.tool_type||"—"}</td>
+                    <td><ReasonBadge reason={r.reason}/></td>
+                    <td className="tf-mono">{r.machine_name}</td>
+                    <td>{r.operator_name}</td>
+                    <td className="tf-mono" style={{color:"var(--muted)"}}>{r.operator_badge}</td>
+                    <td className="tf-mono" style={{color:r.reason==="return"?"var(--accent3)":"var(--danger)"}}>${(r.cost||0).toFixed(2)}</td>
+                    <td style={{color:"var(--muted)"}}>{r.created_at?new Date(r.created_at).toLocaleString():"—"}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            {filtered.length===0&&<div style={{padding:32,textAlign:"center",color:"var(--muted)",fontSize:13}}>No reports match that filter</div>}
+          </div>
         </div>
       )}
     </div>
   );
 }
 
+// ── SLOT MODAL ───────────────────────────────────────────────────────────────
+function SlotModal({slot,machine,onClose,onSave}){
+  const[toolId,setToolId]=useState(slot.tool||"");
+  const[status,setStatus]=useState(slot.status||"empty");
+  return(
+    <div className="tf-modal-overlay" onClick={e=>e.target===e.currentTarget&&onClose()}>
+      <div className="tf-modal">
+        <div className="tf-modal-title">{machine.name} · {slot.turret!==undefined?`Turret T${slot.turret+1} · `:""}Position {slot.pos!==undefined?slot.pos+1:slot.pocket+1}</div>
+        <div className="tf-form-group">
+          <label className="tf-form-label">Tool ID</label>
+          <input className="tf-input" placeholder="e.g. EM-0.500-4FL" value={toolId} onChange={e=>setToolId(e.target.value)} />
+        </div>
+        <div className="tf-form-group">
+          <label className="tf-form-label">Status</label>
+          <select className="tf-select" value={status} onChange={e=>setStatus(e.target.value)}>
+            <option value="empty">Empty</option>
+            <option value="occupied">In Use</option>
+            <option value="worn">Worn</option>
+            <option value="broken">Broken</option>
+          </select>
+        </div>
+        <div style={{display:"flex",gap:10,marginTop:8}}>
+          <button className="tf-btn ghost" style={{flex:1}} onClick={onClose}>Cancel</button>
+          <button className="tf-btn primary" style={{flex:1}} onClick={()=>onSave(toolId,status)}>Save</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── MACHINE VIEW ─────────────────────────────────────────────────────────────
 function MachineView({machines}){
   const[selected,setSelected]=useState(null);
+  const[slots,setSlots]=useState({});
+  const[editingSlot,setEditingSlot]=useState(null);
+  const detailRef=useRef(null);
   const activeMachines=machines.filter(m=>m.active);
   const selMachine=machines.find(m=>m.id===selected);
+
+  const handleSelect=(id)=>{
+    if(id===selected){setSelected(null);return;}
+    setSelected(id);
+    setTimeout(()=>{detailRef.current?.scrollIntoView({behavior:"smooth",block:"start"});},100);
+  };
+
+  const getSlotKey=(machineId,turret,pos)=>`${machineId}-${turret}-${pos}`;
+  const getSlot=(machineId,turret,pos)=>slots[getSlotKey(machineId,turret,pos)]||{tool:"",status:"empty"};
+  const saveSlot=(machineId,turret,pos,toolId,status)=>{
+    setSlots(prev=>({...prev,[getSlotKey(machineId,turret,pos)]:{tool:toolId,status}}));
+    setEditingSlot(null);
+  };
 
   return(
     <div>
       <div className="tf-section-header">
         <div className="tf-section-title">MACHINE <span>INVENTORY</span></div>
-        <div className="tf-section-sub">Click a machine to view tool layout</div>
+        <div className="tf-section-sub">Tap a machine to view tool layout</div>
       </div>
-      <div className="tf-grid4" style={{marginBottom:20}}>
+      <div className="tf-grid4" style={{marginBottom:16}}>
         <div className="tf-stat-card cyan"><div className="tf-stat-label">Active</div><div className="tf-stat-value cyan">{activeMachines.length}</div><div className="tf-stat-sub">online</div></div>
         <div className="tf-stat-card orange"><div className="tf-stat-label">Offline</div><div className="tf-stat-value orange">{machines.filter(m=>!m.active).length}</div><div className="tf-stat-sub">disabled</div></div>
-        <div className="tf-stat-card green"><div className="tf-stat-label">Lathes</div><div className="tf-stat-value green">{activeMachines.filter(m=>m.type==="lathe").length}</div><div className="tf-stat-sub">with turrets</div></div>
-        <div className="tf-stat-card warn"><div className="tf-stat-label">Mills</div><div className="tf-stat-value warn">{activeMachines.filter(m=>m.type==="mill").length}</div><div className="tf-stat-sub">Haas + Mazak XL</div></div>
+        <div className="tf-stat-card green"><div className="tf-stat-label">Lathes</div><div className="tf-stat-value green">{activeMachines.filter(m=>m.type==="lathe").length}</div><div className="tf-stat-sub">turrets</div></div>
+        <div className="tf-stat-card warn"><div className="tf-stat-label">Mills</div><div className="tf-stat-value warn">{activeMachines.filter(m=>m.type==="mill").length}</div><div className="tf-stat-sub">Haas+XL</div></div>
       </div>
+
       {MODEL_ORDER.map(model=>{
         const group=machines.filter(m=>m.model===model);
         if(!group.length)return null;
         return(
-          <div key={model} style={{marginBottom:20}}>
-            <div style={{fontFamily:"'Rajdhani',sans-serif",fontSize:13,fontWeight:700,letterSpacing:2,color:"var(--muted)",textTransform:"uppercase",marginBottom:10,borderBottom:"1px solid var(--border)",paddingBottom:6}}>{model}</div>
-            <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(130px,1fr))",gap:10}}>
+          <div key={model} style={{marginBottom:16}}>
+            <div style={{fontFamily:"'Rajdhani',sans-serif",fontSize:12,fontWeight:700,letterSpacing:2,color:"var(--muted)",textTransform:"uppercase",marginBottom:8,borderBottom:"1px solid var(--border)",paddingBottom:6}}>{model}</div>
+            <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(120px,1fr))",gap:8}}>
               {group.map(m=>(
-                <div key={m.id} className={"tf-machine-card"+(m.id===selected?" selected":"")+(m.active?"":" offline")} onClick={()=>setSelected(m.id===selected?null:m.id)}>
+                <div key={m.id} className={"tf-machine-card"+(m.id===selected?" selected":"")+(m.active?"":" offline")} onClick={()=>m.active&&handleSelect(m.id)}>
                   <div className="tf-machine-name">{m.name}</div>
-                  <div className="tf-machine-type">{m.type==="lathe"?`${m.turrets}T · ${m.positions}pos`:`${m.pockets} pockets`}</div>
-                  {!m.active&&<span className="tf-badge muted" style={{marginTop:6,display:"inline-block",fontSize:9}}>OFFLINE</span>}
+                  <div className="tf-machine-type">{m.type==="lathe"?`${m.turrets}T·${m.positions}pos`:`${m.pockets}pockets`}</div>
+                  {!m.active&&<span className="tf-badge muted" style={{marginTop:4,display:"inline-block",fontSize:9}}>OFFLINE</span>}
                 </div>
               ))}
             </div>
           </div>
         );
       })}
+
       {selMachine&&(
-        <div className="tf-card" style={{marginTop:20}}>
+        <div ref={detailRef} className="tf-card" style={{marginTop:16}}>
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:16}}>
-            <div style={{fontFamily:"'Rajdhani',sans-serif",fontSize:20,fontWeight:700,letterSpacing:2,color:"var(--accent)"}}>{selMachine.name}</div>
+            <div style={{fontFamily:"'Rajdhani',sans-serif",fontSize:18,fontWeight:700,letterSpacing:2,color:"var(--accent)"}}>{selMachine.name}</div>
             <button className="tf-btn ghost sm" onClick={()=>setSelected(null)}>✕ Close</button>
           </div>
+          <div style={{display:"flex",gap:8,marginBottom:14,flexWrap:"wrap"}}>
+            <span className="tf-badge cyan">● IN USE</span>
+            <span className="tf-badge warn">● WORN</span>
+            <span className="tf-badge red">● BROKEN</span>
+            <span className="tf-badge muted">○ EMPTY</span>
+          </div>
+          <div style={{fontSize:11,color:"var(--muted)",marginBottom:12}}>Tap any slot to assign or update a tool</div>
+
           {selMachine.type==="lathe"?(
-            <div style={{display:"flex",gap:16,flexWrap:"wrap"}}>
+            <div style={{display:"flex",flexDirection:"column",gap:12}}>
               {Array.from({length:selMachine.turrets},(_,ti)=>(
                 <div key={ti} className="tf-turret-block">
                   <div className="tf-turret-label">TURRET T{ti+1}</div>
                   <div className="tf-turret-grid">
-                    {Array.from({length:selMachine.positions},(_,pi)=>(
-                      <div key={pi} className="tf-slot">
-                        <span className="tf-slot-num">P{pi+1}</span>—
-                      </div>
-                    ))}
+                    {Array.from({length:selMachine.positions},(_,pi)=>{
+                      const s=getSlot(selMachine.id,ti,pi);
+                      return(
+                        <div key={pi} className={"tf-slot "+s.status}
+                          onClick={()=>setEditingSlot({turret:ti,pos:pi,...s})}>
+                          <span className="tf-slot-num">P{pi+1}</span>
+                          <span className="tf-slot-tool">{s.tool||"—"}</span>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               ))}
@@ -509,52 +622,72 @@ function MachineView({machines}){
             <div>
               <div style={{marginBottom:10,fontSize:12,color:"var(--muted)"}}>{selMachine.pockets} Tool Pockets</div>
               <div className="tf-pocket-grid">
-                {Array.from({length:selMachine.pockets},(_,i)=>(
-                  <div key={i} className="tf-pocket">{i+1}</div>
-                ))}
+                {Array.from({length:selMachine.pockets},(_,i)=>{
+                  const s=getSlot(selMachine.id,"pocket",i);
+                  return(
+                    <div key={i} className={"tf-pocket "+(s.tool?"occupied":"empty")}
+                      title={`Pocket ${i+1}${s.tool?" — "+s.tool:""}`}
+                      onClick={()=>setEditingSlot({pocket:i,...s})}>
+                      {i+1}
+                    </div>
+                  );
+                })}
               </div>
             </div>
           )}
         </div>
       )}
+
+      {editingSlot&&selMachine&&(
+        <SlotModal
+          slot={editingSlot}
+          machine={selMachine}
+          onClose={()=>setEditingSlot(null)}
+          onSave={(toolId,status)=>{
+            if(editingSlot.turret!==undefined) saveSlot(selMachine.id,editingSlot.turret,editingSlot.pos,toolId,status);
+            else saveSlot(selMachine.id,"pocket",editingSlot.pocket,toolId,status);
+          }}
+        />
+      )}
     </div>
   );
 }
 
+// ── ANALYTICS VIEW ───────────────────────────────────────────────────────────
 function AnalyticsView({reports}){
   const totalCost=reports.reduce((s,r)=>s+(r.cost||0),0);
   const byReason={broken:0,worn:0,lost:0,return:0};
   reports.forEach(r=>{if(byReason[r.reason]!==undefined)byReason[r.reason]++;});
   const byMachine={};
   reports.forEach(r=>{if(!r.machine_name)return;if(!byMachine[r.machine_name])byMachine[r.machine_name]={count:0,cost:0};byMachine[r.machine_name].count++;byMachine[r.machine_name].cost+=(r.cost||0);});
-  const topMachines=Object.entries(byMachine).sort((a,b)=>b[1].cost-a[1].cost).slice(0,8);
-  const maxM=topMachines.length?topMachines[0][1].cost:1;
+  const topM=Object.entries(byMachine).sort((a,b)=>b[1].cost-a[1].cost).slice(0,8);
+  const maxM=topM.length?topM[0][1].cost:1;
   const byType={};
   reports.forEach(r=>{if(!r.tool_type)return;if(!byType[r.tool_type])byType[r.tool_type]={count:0,cost:0};byType[r.tool_type].count++;byType[r.tool_type].cost+=(r.cost||0);});
-  const topTypes=Object.entries(byType).sort((a,b)=>b[1].cost-a[1].cost).slice(0,8);
-  const maxT=topTypes.length?topTypes[0][1].cost:1;
+  const topT=Object.entries(byType).sort((a,b)=>b[1].cost-a[1].cost).slice(0,8);
+  const maxT=topT.length?topT[0][1].cost:1;
 
   return(
     <div>
       <div className="tf-section-header">
         <div className="tf-section-title">ANALYTICS <span>&amp; COSTS</span></div>
-        <div className="tf-section-sub">Real data from all submitted reports</div>
+        <div className="tf-section-sub">Real data from all reports</div>
       </div>
-      <div className="tf-grid4" style={{marginBottom:20}}>
+      <div className="tf-grid4" style={{marginBottom:16}}>
         <div className="tf-stat-card danger"><div className="tf-stat-label">Total Loss</div><div className="tf-stat-value danger">${totalCost.toFixed(0)}</div><div className="tf-stat-sub">all time</div></div>
         <div className="tf-stat-card orange"><div className="tf-stat-label">Broken</div><div className="tf-stat-value orange">{byReason.broken}</div><div className="tf-stat-sub">reported</div></div>
         <div className="tf-stat-card warn"><div className="tf-stat-label">Lost</div><div className="tf-stat-value warn">{byReason.lost}</div><div className="tf-stat-sub">unaccounted</div></div>
-        <div className="tf-stat-card cyan"><div className="tf-stat-label">Total Reports</div><div className="tf-stat-value cyan">{reports.length}</div><div className="tf-stat-sub">all time</div></div>
+        <div className="tf-stat-card cyan"><div className="tf-stat-label">Reports</div><div className="tf-stat-value cyan">{reports.length}</div><div className="tf-stat-sub">all time</div></div>
       </div>
       <div className="tf-grid2">
         <div className="tf-card">
           <div className="tf-card-title">Top Machines by Cost</div>
-          {topMachines.length===0&&<div style={{color:"var(--muted)",fontSize:13}}>No data yet — submit reports first</div>}
-          {topMachines.map(([name,d])=>(
-            <div key={name} style={{marginBottom:12}}>
+          {topM.length===0&&<div style={{color:"var(--muted)",fontSize:13}}>No data yet</div>}
+          {topM.map(([name,d])=>(
+            <div key={name} style={{marginBottom:10}}>
               <div style={{display:"flex",justifyContent:"space-between",marginBottom:4}}>
-                <span className="tf-mono" style={{fontSize:12,color:"var(--accent)"}}>{name}</span>
-                <span className="tf-mono" style={{fontSize:12,color:"var(--danger)"}}>${d.cost.toFixed(0)}</span>
+                <span className="tf-mono" style={{fontSize:11,color:"var(--accent)"}}>{name}</span>
+                <span className="tf-mono" style={{fontSize:11,color:"var(--danger)"}}>${d.cost.toFixed(0)}</span>
               </div>
               <div className="tf-progress-bar"><div className="tf-progress-fill" style={{width:`${(d.cost/maxM)*100}%`,background:"var(--accent2)"}} /></div>
             </div>
@@ -562,12 +695,12 @@ function AnalyticsView({reports}){
         </div>
         <div className="tf-card">
           <div className="tf-card-title">Loss by Tool Type</div>
-          {topTypes.length===0&&<div style={{color:"var(--muted)",fontSize:13}}>No data yet — submit reports first</div>}
-          {topTypes.map(([type,d])=>(
-            <div key={type} style={{marginBottom:12}}>
+          {topT.length===0&&<div style={{color:"var(--muted)",fontSize:13}}>No data yet</div>}
+          {topT.map(([type,d])=>(
+            <div key={type} style={{marginBottom:10}}>
               <div style={{display:"flex",justifyContent:"space-between",marginBottom:4}}>
-                <span style={{fontSize:12}}>{type}</span>
-                <span className="tf-mono" style={{fontSize:12,color:"var(--danger)"}}>${d.cost.toFixed(0)} ({d.count})</span>
+                <span style={{fontSize:11}}>{type}</span>
+                <span className="tf-mono" style={{fontSize:11,color:"var(--danger)"}}>${d.cost.toFixed(0)}</span>
               </div>
               <div className="tf-progress-bar"><div className="tf-progress-fill" style={{width:`${(d.cost/maxT)*100}%`,background:"var(--accent)"}} /></div>
             </div>
@@ -578,6 +711,7 @@ function AnalyticsView({reports}){
   );
 }
 
+// ── ADMIN VIEW ───────────────────────────────────────────────────────────────
 function AdminView({machines,setMachines,onSave}){
   const[saving,setSaving]=useState(false);
   const[saved,setSaved]=useState(false);
@@ -591,30 +725,28 @@ function AdminView({machines,setMachines,onSave}){
   const add=()=>{
     if(!newM.name.trim())return;
     const id=newM.name.toLowerCase().replace(/\s+/g,"-")+"-"+Date.now();
-    setMachines(p=>[...p,{...newM,id}]);
-    setNewM(nm);
+    setMachines(p=>[...p,{...newM,id}]);setNewM(nm);
   };
   const save=async()=>{
-    setSaving(true);
-    const ok=await onSave(machines);
-    setSaving(false);
+    setSaving(true);const ok=await onSave(machines);setSaving(false);
     if(ok){setSaved(true);setTimeout(()=>setSaved(false),3000);}
-    else alert("Error saving. Check connection.");
+    else alert("Error saving.");
   };
 
   return(
     <div>
-      <div className="tf-section-header" style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
+      <div className="tf-section-header" style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",gap:12}}>
         <div>
           <div className="tf-section-title">ADMIN <span>PANEL</span></div>
-          <div className="tf-section-sub">Manage machines · Badge 2026 required</div>
+          <div className="tf-section-sub">Badge 2026 required</div>
         </div>
-        <button className="tf-btn primary" onClick={save} disabled={saving}>{saving?"Saving…":"💾 Save All Changes"}</button>
+        <button className="tf-btn primary sm" onClick={save} disabled={saving}>{saving?"Saving…":"💾 Save"}</button>
       </div>
-      {saved&&<div className="tf-success-msg">✓ Changes saved to database successfully</div>}
-      <div className="tf-card" style={{marginBottom:20}}>
+      {saved&&<div className="tf-success-msg">✓ Saved to database</div>}
+
+      <div className="tf-card" style={{marginBottom:16}}>
         <div className="tf-card-title">Add New Machine</div>
-        <div className="tf-grid3">
+        <div className="tf-grid2">
           <div className="tf-form-group">
             <label className="tf-form-label">Machine Name</label>
             <input className="tf-input" placeholder="e.g. Haas VF-9" value={newM.name} onChange={e=>setNewM(p=>({...p,name:e.target.value}))} />
@@ -630,16 +762,18 @@ function AdminView({machines,setMachines,onSave}){
               <option value="mill">Mill (pockets)</option>
             </select>
           </div>
-          {newM.type==="lathe"?(<>
-            <div className="tf-form-group">
-              <label className="tf-form-label">Number of Turrets</label>
-              <input className="tf-input" type="number" min="1" max="6" value={newM.turrets} onChange={e=>setNewM(p=>({...p,turrets:parseInt(e.target.value)||1}))} />
-            </div>
-            <div className="tf-form-group">
-              <label className="tf-form-label">Positions per Turret</label>
-              <input className="tf-input" type="number" min="1" max="32" value={newM.positions} onChange={e=>setNewM(p=>({...p,positions:parseInt(e.target.value)||12}))} />
-            </div>
-          </>):(
+          {newM.type==="lathe"?(
+            <>
+              <div className="tf-form-group">
+                <label className="tf-form-label">Turrets</label>
+                <input className="tf-input" type="number" min="1" max="6" value={newM.turrets} onChange={e=>setNewM(p=>({...p,turrets:parseInt(e.target.value)||1}))} />
+              </div>
+              <div className="tf-form-group">
+                <label className="tf-form-label">Positions/Turret</label>
+                <input className="tf-input" type="number" min="1" max="32" value={newM.positions} onChange={e=>setNewM(p=>({...p,positions:parseInt(e.target.value)||12}))} />
+              </div>
+            </>
+          ):(
             <div className="tf-form-group">
               <label className="tf-form-label">Tool Pockets</label>
               <input className="tf-input" type="number" min="1" max="300" value={newM.pockets} onChange={e=>setNewM(p=>({...p,pockets:parseInt(e.target.value)||40}))} />
@@ -648,42 +782,40 @@ function AdminView({machines,setMachines,onSave}){
         </div>
         <button className="tf-btn green sm" onClick={add} disabled={!newM.name.trim()}>+ Add Machine</button>
       </div>
-      <div className="tf-card" style={{padding:0,overflow:"hidden"}}>
-        <table className="tf-table">
-          <thead><tr><th>Machine Name</th><th>Model</th><th>Type</th><th>Configuration</th><th>Status</th><th>Remove</th></tr></thead>
-          <tbody>
-            {machines.map(m=>(
-              <tr key={m.id}>
-                <td>
-                  {editId===m.id?(
-                    <input className="tf-input" style={{padding:"4px 8px",fontSize:12}} value={m.name}
-                      onChange={e=>rename(m.id,e.target.value)}
-                      onBlur={()=>setEditId(null)} autoFocus />
-                  ):(
-                    <span className="tf-mono" style={{color:"var(--accent)",fontSize:12,cursor:"pointer"}} onClick={()=>setEditId(m.id)}>
-                      {m.name} <span style={{fontSize:10,color:"var(--muted)"}}>✏️</span>
-                    </span>
-                  )}
-                </td>
-                <td style={{fontSize:12,color:"var(--muted)"}}>{m.model}</td>
-                <td><span className={"tf-badge "+(m.type==="lathe"?"cyan":"orange")}>{m.type}</span></td>
-                <td style={{fontSize:11,color:"var(--muted)"}}>{m.type==="lathe"?`${m.turrets} turrets × ${m.positions} pos`:`${m.pockets} pockets`}</td>
-                <td>
-                  <div className="tf-toggle" onClick={()=>toggle(m.id)}>
-                    <div className={"tf-toggle-switch"+(m.active?" on":"")} />
-                    <span style={{fontSize:11,color:m.active?"var(--accent3)":"var(--muted)"}}>{m.active?"Online":"Offline"}</span>
+
+      <div style={{display:"flex",flexDirection:"column",gap:8}}>
+        {machines.map(m=>(
+          <div key={m.id} className="tf-card" style={{padding:14}}>
+            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",gap:10}}>
+              <div style={{flex:1,minWidth:0}}>
+                {editId===m.id?(
+                  <input className="tf-input" style={{padding:"4px 8px",fontSize:14}} value={m.name}
+                    onChange={e=>rename(m.id,e.target.value)} onBlur={()=>setEditId(null)} autoFocus />
+                ):(
+                  <div style={{display:"flex",alignItems:"center",gap:8}}>
+                    <span className="tf-mono" style={{color:"var(--accent)",fontSize:13}}>{m.name}</span>
+                    <button className="tf-btn ghost sm" style={{padding:"2px 6px",fontSize:10}} onClick={()=>setEditId(m.id)}>✏️</button>
                   </div>
-                </td>
-                <td><button className="tf-btn danger sm" onClick={()=>remove(m.id)}>Remove</button></td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                )}
+                <div style={{fontSize:10,color:"var(--muted)",marginTop:3}}>
+                  {m.model} · {m.type==="lathe"?`${m.turrets}T×${m.positions}pos`:`${m.pockets}pockets`}
+                </div>
+              </div>
+              <div style={{display:"flex",alignItems:"center",gap:8,flexShrink:0}}>
+                <div className="tf-toggle" onClick={()=>toggle(m.id)}>
+                  <div className={"tf-toggle-switch"+(m.active?" on":"")} />
+                </div>
+                <button className="tf-btn danger sm" onClick={()=>remove(m.id)}>✕</button>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
 }
 
+// ── APP ──────────────────────────────────────────────────────────────────────
 function App(){
   const[user,setUser]=useState(()=>loadSession());
   const[tab,setTab]=useState("operator");
@@ -692,20 +824,16 @@ function App(){
   const[machines,setMachines]=useState(DEFAULT_MACHINES);
 
   const loadReports=useCallback(async()=>{
-    setLoadingReports(true);
-    const data=await fetchReports();
-    setReports(data);
-    setLoadingReports(false);
+    setLoadingReports(true);const data=await fetchReports();setReports(data);setLoadingReports(false);
   },[]);
 
   const loadMachines=useCallback(async()=>{
-    const data=await fetchMachinesDB();
-    if(data&&data.length>0)setMachines(data);
+    const data=await fetchMachinesDB();if(data&&data.length>0)setMachines(data);
   },[]);
 
   useEffect(()=>{if(user){loadReports();loadMachines();}},[user]);
 
-  if(!user)return<LoginScreen onLogin={u=>{setUser(u);}}/>;
+  if(!user)return<LoginScreen onLogin={u=>setUser(u)}/>;
 
   const tabs=[
     {key:"operator",label:"📱 Operator"},
@@ -727,9 +855,9 @@ function App(){
           ))}
         </div>
         <div className="tf-user-area">
-          {user.isAdmin&&<span className="tf-admin-badge">⚙ ADMIN</span>}
-          <div className="tf-user-badge">{user.name.toUpperCase()} · #{user.badge}</div>
-          <button className="tf-logout-btn" onClick={()=>{clearSession();setUser(null);}}>Sign Out</button>
+          {user.isAdmin&&<span className="tf-admin-badge">⚙</span>}
+          <div className="tf-user-badge">{user.name.split(" ")[0].toUpperCase()} · #{user.badge}</div>
+          <button className="tf-logout-btn" onClick={()=>{clearSession();setUser(null);}}>Out</button>
         </div>
       </nav>
       <main className="tf-main">
